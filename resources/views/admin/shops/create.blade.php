@@ -13,7 +13,7 @@
                         @endif
 
                         <form class="form-horizontal" method="POST" action="{{ route('shops.store') }}"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" id="createShopForm">
                             {{ csrf_field() }}
 
                             <div class="form-group row pt-2">
@@ -21,7 +21,7 @@
 
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control" name="name"
-                                        value="{{ old('name') }}" required autofocus>
+                                        value="{{ old('name') }}" autofocus>
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -36,7 +36,7 @@
 
                                 <div class="col-md-6">
                                     <input id="address" type="text" class="form-control" name="address"
-                                        value="{{ old('address') }}" required>
+                                        value="{{ old('address') }}">
 
                                     @if ($errors->has('address'))
                                         <span class="help-block">
@@ -51,7 +51,7 @@
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email"
-                                        value="{{ old('email') }}" required>
+                                        value="{{ old('email') }}">
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -65,7 +65,7 @@
                                 <label for="image" class="col-md-4 col-form-label text-md-right">Shop Image</label>
 
                                 <div class="col-md-6">
-                                    <input id="image" type="file" class="form-control" name="image" required>
+                                    <input id="image" type="file" class="form-control" name="image">
 
                                     @if ($errors->has('image'))
                                         <span class="help-block">
@@ -88,4 +88,49 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#createShopForm').validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    image: {
+                        required: true,
+                        extension: "jpeg|png|jpg|gif"
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "Please enter the shop name"
+                    },
+                    address: {
+                        required: "Please enter the shop address"
+                    },
+                    email: {
+                        required: "Please enter the email",
+                        email: "Please enter a valid email address"
+                    },
+                    image: {
+                        required: "Please upload an image",
+                        extension: "Please upload only jpeg, png, jpg, or gif images"
+                    }
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
 @endsection
